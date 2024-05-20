@@ -16,6 +16,7 @@ services:
       - ./app/server:/var/www/src
     depends_on:
       - app
+      - nextjs
     networks:
       - app_network
 
@@ -46,6 +47,18 @@ services:
       - 3306:3306
     volumes:
       - db-store:/var/lib/mysql
+    networks:
+      - app_network
+
+  nextjs:
+    build:
+      context: .
+      dockerfile: ./docker/nextjs/Dockerfile
+    container_name: ts-nextjs
+    volumes:
+      - ./app/front:/app/front
+    ports:
+      - 3000:3000
     networks:
       - app_network
 
